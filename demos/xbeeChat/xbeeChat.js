@@ -8,9 +8,7 @@ portConfig = {
 	baudRate: 9600,
 	parser: SerialPort.parsers.readline("\n")
 };
-
 var sp;
-
 sp = new SerialPort.SerialPort(portName, portConfig);
 
 app.get('/', function(req, res){

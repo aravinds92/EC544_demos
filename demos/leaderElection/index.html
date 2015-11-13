@@ -1,0 +1,35 @@
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="lib/paper/paper-full.min.js"></script>
+    <link rel="stylesheet" href="lib/material/material.min.css">
+    <script src="lib/material/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="modified.css">
+</head>
+
+<body>
+  <div id="main_window" class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer
+            mdl-layout--overlay-drawer-button ">
+            <div id="button_drawer" class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Leader Election</span><br><br>
+      <center>Click and drag to create nodes.</center><br>
+      <center>Hold Shift to remove them instead.</center><br>
+      <center>Click small nodes to infect the network.</center><br>
+      <center>Click large nodes to cure it.</center><br>
+      <center>Press Enter to start over.</center><br>
+      <nav class="mdl-navigation" id="feature-controls">
+      </nav>
+    </div>
+    <main class="mdl-layout__content">
+      <div id="view_container" class="page-content">
+      <div id="canvas_block" class="shown-block fade-transition">
+        <canvas id="c" tabindex="0" resize></canvas>
+      </div>
+      <div id="renderContainer" class="hidden-block fade-transition">
+    </main>
+  <div>
+</body>
+
+<script src="LeaderElectionSim.min.js"></script>
