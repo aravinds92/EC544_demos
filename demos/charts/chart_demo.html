@@ -2,7 +2,6 @@
 <html>
   <head>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
-    <script type="text/javascript" src="./uvcharts.min.js"></script>
     <script type="text/javascript" src="./canvasjs.min.js"></script>
   </head>
 
@@ -34,6 +33,7 @@ var addTimePoint = function(dataset, sensorName, timepoint, value){
 }
 
 var addRandomPoint = function(){
+if (time <= 300){
   var rand = Math.floor(Math.random() * 4);
   var sensorName;
   var randomValue;
@@ -51,9 +51,12 @@ var addRandomPoint = function(){
     randomValue = 50;
   }
   time += randomDelay/1000; 
-
   randomValue += Math.round(Math.random() * 10) - 5;
   addTimePoint(sensorData, sensorName, time, randomValue);
+}
+else {
+window.clearInterval(timer);
+}
 }
 
 var compareReadingsByTime = function(readingA,readingB){
@@ -137,7 +140,7 @@ var refreshChart = function(){
   renderChart(sensorData);
 }
 
-window.setInterval(addRandomPoint, randomDelay);
+var timer = window.setInterval(addRandomPoint, randomDelay);
 
 </script>
 </html>
