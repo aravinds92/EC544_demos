@@ -1,0 +1,22 @@
+{
+  "name": "chat_test",
+  "version": "0.0.1",
+  "description": "Demos for EC544 at Boston University",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EC544-BU/EC544_demos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EC544-BU/EC544_demos/issues"
+  },
+  "homepage": "https://github.com/EC544-BU/EC544_demos",
+  "devDependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.6"
+  }
+}
