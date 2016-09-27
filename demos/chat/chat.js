@@ -2,15 +2,16 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require("fs");
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('mydb.db');
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('mydb.db');
+
+
+var check;
 var str = '\0';										
 var time;																	//Global variable to hold the time value
 var count = 0;																//Track number of messages that have come in
-
-fs.writeFile('./file.txt', '',  function(err) {								//Clear the file at the beginning of operation. Optional
-   	if (err) {
-      return console.error(err);
-   }
-});
 
 function calculate_time(){													//Calculate the time periodically and store in variable time
 	var date = new Date();
@@ -20,6 +21,28 @@ function calculate_time(){													//Calculate the time periodically and sto
     time = ''
     time = hour + ':' + minutes + ':' + seconds;
 }
+
+function write_to_db(source, value, time){
+  console.log("Inside");
+  db.serialize(function() {
+    db.run("CREATE TABLE items (sensor_id INTEGER PRIMARY KEY, sensor_output FLOAT, time TEXT)");
+    var stmt = db.prepare("INSERT INTO items VALUES(?,?,?)");
+
+    stmt.run(source,value,time);
+
+    stmt.finalize();
+  });
+
+  db.close();
+}
+
+/*fs.writeFile('./file.txt', '',  function(err) {               //Clear the file at the beginning of operation. Optional
+    if (err) {
+      return console.error(err);
+   }
+});*/
+
+
 
 setInterval(calculate_time,500);											//Call the function once every 0.5 seconds
 
@@ -34,7 +57,7 @@ io.on('connection', function(socket){
   });
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
-    str = str + msg + ' ' + time + '\n'										//string to hold all the data
+    /*str = str + msg + ' ' + time + '\n'										//string to hold all the data
     count += 1;
     fs.writeFile('./file.txt', count + '\n',  function(err) {				//Write count at the top of the file
    		if (err) {
@@ -46,8 +69,8 @@ io.on('connection', function(socket){
       return console.error(err);
    }
    });
-    console.log(time);
-   //console.log(str);
+
+    console.log(time);*/
   });
 });
 
