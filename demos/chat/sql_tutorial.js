@@ -4,8 +4,8 @@ var check;
 
 function write_to_db(source, value, time){
 	console.log("Inside");
-	db.serialize(function() {
-		db.run("CREATE TABLE items (sensor_id INTEGER PRIMARY KEY, sensor_output FLOAT, time TEXT)");
+	db.serialize(function() {	
+		db.run("CREATE TABLE if not exists items (sensor_id INTEGER, sensor_output FLOAT, time TEXT)");
 		var stmt = db.prepare("INSERT INTO items VALUES(?,?,?)");
 
 		stmt.run(source,value,time);
@@ -17,4 +17,4 @@ function write_to_db(source, value, time){
 }
 
 
-write_to_db(1,26.5,"Hello");
+write_to_db(1.1,26.5,"Hello");

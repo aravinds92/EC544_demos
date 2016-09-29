@@ -4,31 +4,40 @@ var io = require('socket.io')(http);
 var fs = require("fs");
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('mydb.db');
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('mydb.db');
 
 
 var check;
 var str = '\0';										
 var time;																	//Global variable to hold the time value
-var count = 0;																//Track number of messages that have come in
+var date;                                 //Global variable to hold the time value
+var count = 0;														//Track number of messages that have come in
 
-function calculate_time(){													//Calculate the time periodically and store in variable time
-	var date = new Date();
-	var hour = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    time = ''
-    time = hour + ':' + minutes + ':' + seconds;
+function calculate_time(){								//Calculate the time periodically and store in variable time
+	var date_local = new Date();
+	var hour = date_local.getHours();
+  var minutes = date_local.getMinutes();
+  var seconds = date_local.getSeconds();
+  time = ''
+  time = hour + ':' + minutes + ':' + seconds;
 }
 
-function write_to_db(source, value, time){
+function find_date(){
+  var date_local = new Date();
+  var month = date_local.getMonth() + 1 
+  var day = date_local.getDate() 
+  var year = date_local.getFullYear() 
+  date = ''
+  date = month + '/' + day + '/' + year
+  //console.log(now);
+}
+
+function write_to_db(source, value, time, date){
   console.log("Inside");
   db.serialize(function() {
-    db.run("CREATE TABLE items (sensor_id INTEGER PRIMARY KEY, sensor_output FLOAT, time TEXT)");
-    var stmt = db.prepare("INSERT INTO items VALUES(?,?,?)");
+    db.run("CREATE TABLE items (sensor_id INTEGER PRIMARY KEY, sensor_output FLOAT, time TEXT, date TEXT)");
+    var stmt = db.prepare("INSERT INTO items VALUES(?,?,?,?)");
 
-    stmt.run(source,value,time);
+    stmt.run(source,value,time,date);
 
     stmt.finalize();
   });
@@ -45,6 +54,7 @@ function write_to_db(source, value, time){
 
 
 setInterval(calculate_time,500);											//Call the function once every 0.5 seconds
+setInterval(find_date,10000);                      //Call the function once every 0.5 seconds
 
 
 app.get('/', function(req, res){
@@ -71,6 +81,10 @@ io.on('connection', function(socket){
    });
 
     console.log(time);*/
+    find_date()
+    calculate_time()
+    console.log(date)
+    console.log(time)
   });
 });
 
